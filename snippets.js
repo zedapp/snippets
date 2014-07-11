@@ -210,5 +210,8 @@ module.exports = function(info) {
         case "save":
             save(info);
             break;
+        case "add":
+            addSnippet(info.inputs.mode.language);
+            break;
     }
 }

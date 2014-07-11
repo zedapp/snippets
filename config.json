@@ -63,6 +63,13 @@
             inputs: {
                 mode: true
             }
+        },
+        "Snippets:Add": {
+            scriptUrl: "./snippets.js",
+            action: "add",
+            inputs: {
+                mode: true
+            }
         }
     }
 }
