@@ -1,0 +1,9 @@
+{
+    "name": "Snippet manager",
+    "uri": "gh:zedapp/snippets",
+    "version": "0.1",
+    "description": "A Zed package to more easily manage snippets",
+    "files": [
+        "snippets.js"
+    ]
+}

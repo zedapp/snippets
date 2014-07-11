@@ -1,0 +1,68 @@
+{
+    modes: {
+        "snippet-manager": {
+            name: "Snippet manager",
+            highlighter: "mode/zed_ui",
+            filenames: ["zed::snippets"],
+
+            keys: {
+                "Snippets:Execute Command": "Enter"
+            },
+
+            commands: {
+                "Snippets:Execute Command": {
+                    scriptUrl: "./snippets.js",
+                    action: "execute",
+                    inputs: {
+                        lines: true,
+                        cursor: true
+                    },
+                    internal: true
+                }
+            },
+
+            preferences: {
+                showGutter: false,
+                showPrintMargin: false
+            },
+
+            handlers: {
+                click: ["Snippets:Execute Command"]
+            }
+        },
+        "snippet-edit": {
+            name: "Edit snippet",
+            highlighter: "ace/mode/text",
+            extensions: ["snippet"],
+
+            commands: {
+                "Snippets:Save": {
+                    scriptUrl: "./snippets.js",
+                    action: "save",
+                    inputs: {
+                        text: true
+                    },
+                    internal: true
+                }
+            },
+
+            preferences: {
+                showGutter: false,
+                showPrintMargin: false
+            },
+
+            handlers: {
+                change: ["Snippets:Save"]
+            }
+        }
+    },
+    commands: {
+        "Snippets:List": {
+            scriptUrl: "./snippets.js",
+            action: "list",
+            inputs: {
+                mode: true
+            }
+        }
+    }
+}
