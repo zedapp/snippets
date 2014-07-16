@@ -46,12 +46,11 @@ function getSnippets(mode) {
 }
 
 function list(mode) {
-    console.log("Listing mode", mode);
     return session.goto("zed::snippets").then(function() {
-        session.setText("zed::snippets", "Snippets for " + mode.language + "\n=============================\n[Create snippet] [Reload list]\n\nCurrent snippets\n----------------------\n\n");
+        session.setText("zed::snippets", "Snippets for " + mode.language + "\n======================\n[Create snippet] [Reload list]\n\nCurrent snippets\n----------------------\n\n");
         var snippets = getSnippets(mode);
         Object.keys(snippets).forEach(function(snippetName) {
-            append(snippetName + " [Edit] [Remove]\n---\n" + snippets[snippetName] + "\n---\n\n");
+            append(snippetName + " [Edit] [Remove]\n\n    " + snippets[snippetName].replace(/\n/g, "\n    ") + "\n\n");
         });
         if(Object.keys(snippets).length === 0) {
             append("No snippets yet!");
@@ -83,7 +82,6 @@ function editSnippet(lang, name) {
     var docPath = "zed::snippets::" + lang + "::" + name + ".snippet";
     var text;
     config.getMode(lang).then(function(mode) {
-        console.log("Edit snippet: |" + name + "|");
         var snippets = getSnippets(mode);
         text = snippets[name];
         return session.goto(docPath + "|write");
@@ -93,7 +91,6 @@ function editSnippet(lang, name) {
 }
 
 function removeSnippet(lang, name) {
-    console.log("Remove snippet:", name);
     var configJson;
     var fullMode;
     return session.deleteSession("zed::snippets::" + lang + "::" + name + ".snippet").then(function() {
@@ -182,7 +179,6 @@ function save(info) {
         var modeName = parts[2];
         var snippetName = parts[3].split(".")[0];
         var text = info.inputs.text.replace(/^\s+|\s+$/g, "");
-        console.log("Saving", snippetName);
         return loadUserConfig().then(function(configJson) {
             var oldJson = JSON.stringify(configJson);
             var entry = ensureSnippetsEntry(configJson, modeName);
