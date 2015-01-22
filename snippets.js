@@ -25,12 +25,13 @@ function ensureSnippetsEntry(confJson, lang) {
     }
     if (!confJson.modes[lang].commands["Tools:Complete:Snippet"]) {
         confJson.modes[lang].commands["Tools:Complete:Snippet"] = {
-            scriptUrl: "/default/command/snippet_completer.js"
+            scriptUrl: "/default/command/snippet_completer.js",
+            sandbox: "complete"
         };
-        if(!confJson.modes[lang].handlers) {
+        if (!confJson.modes[lang].handlers) {
             confJson.modes[lang].handlers = {};
         }
-        if(!confJson.modes[lang].handlers.complete) {
+        if (!confJson.modes[lang].handlers.complete) {
             confJson.modes[lang].handlers.complete = [];
         }
         confJson.modes[lang].handlers.complete.push("Tools:Complete:Snippet");
@@ -52,7 +53,7 @@ function list(mode) {
         Object.keys(snippets).forEach(function(snippetName) {
             append(snippetName + " [Edit] [Remove]\n\n    " + snippets[snippetName].replace(/\n/g, "\n    ") + "\n\n");
         });
-        if(Object.keys(snippets).length === 0) {
+        if (Object.keys(snippets).length === 0) {
             append("No snippets yet!");
         }
     }).then(function() {
@@ -71,7 +72,7 @@ function addSnippet(lang) {
     var name;
     return ui.prompt("Snippet name:", "").then(function(name_) {
         name = name_;
-        if(!name) {
+        if (!name) {
             return;
         }
         return session.goto("zed::snippets::" + lang + "::" + name + ".snippet|write");
@@ -101,7 +102,7 @@ function removeSnippet(lang, name) {
     }).then(function(configJson_) {
         configJson = configJson_;
         var entry = ensureSnippetsEntry(configJson, lang);
-        if(entry[name] === undefined) {
+        if (entry[name] === undefined) {
             return ui.prompt("Cannot remove a built-in snippet.");
         }
         delete entry[name];
